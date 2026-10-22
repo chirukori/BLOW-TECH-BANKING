@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment & Credentials (CRITICAL: Do not commit secrets)
+.env
+**/.env
+.env*.local
+**/.env*.local
+
+# Expo & Build artifacts
+.expo/
+**/.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native builds
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+/ios
+/android
+
+# Metro & Logs
+.metro-health-check*
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# OS & Temp
+.DS_Store
+Thumbs.db
+*.pem
+*.tsbuildinfo

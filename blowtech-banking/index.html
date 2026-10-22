@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blowtech Banking</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Auth Overlay -->
+    <div id="authOverlay" class="auth-overlay">
+        <div class="auth-card">
+            <div class="logo-container" style="justify-content: center; margin-bottom: 24px; padding: 0;">
+                <div class="logo-icon"><i data-lucide="sparkles"></i></div>
+                <div class="logo-text">
+                    <h1>blowtech</h1><span>DIGITAL BANKING</span>
+                </div>
+            </div>
+
+            <!-- Sign In Form -->
+            <div id="signInSection">
+                <h3 style="margin-bottom: 16px; text-align: center;">Sign In</h3>
+                <form id="signInForm">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" required placeholder="name@example.com" value="jordan@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" required placeholder="••••••••" value="password123">
+                    </div>
+                    <button type="submit" class="btn btn-primary full-width mt-4">Sign In</button>
+                </form>
+                <p style="text-align: center; margin-top: 16px; font-size: 0.875rem;">
+                    Don't have an account? <a href="#" id="showRegisterBtn"
+                        style="color: var(--primary-action); text-decoration: none; font-weight: 500;">Register</a>
+                </p>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerSection" class="hidden">
+                <h3 style="margin-bottom: 16px; text-align: center;">Create an account</h3>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" required placeholder="name@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn btn-primary full-width mt-4">Register</button>
+                </form>
+                <p style="text-align: center; margin-top: 16px; font-size: 0.875rem;">
+                    Already have an account? <a href="#" id="showSignInBtn"
+                        style="color: var(--primary-action); text-decoration: none; font-weight: 500;">Sign In</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i data-lucide="sparkles"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>blowtech</h1>
+                    <span>DIGITAL BANKING</span>
+                </div>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#" class="active" aria-current="page"><i data-lucide="home"></i> Overview</a></li>
+                <li><a href="#" id="navPaymentsBtn"><i data-lucide="send"></i> Payments</a></li>
+                <li><a href="#" id="navCardsBtn"><i data-lucide="credit-card"></i> Cards</a></li>
+                <li><a href="#" id="navInsightsBtn"><i data-lucide="trending-up"></i> Insights</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <p class="greeting" id="greetingText">Good morning, Jordan</p>
+                    <h2 class="tagline">Your money, in motion.</h2>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" id="desktopSendBtn" style="margin-right: 8px;"><i
+                            data-lucide="send"></i> Send money</button>
+                    <button class="btn btn-secondary" id="helpBtn"><i data-lucide="help-circle"></i> Help</button>
+                    <button class="btn-icon" id="notificationBtn" aria-label="Notifications"><i
+                            data-lucide="bell"></i><span class="notification-dot"></span></button>
+                    <div class="user-profile" id="profileBtn" style="cursor: pointer;">
+                        <div class="avatar" id="profileAvatar">JD</div>
+                        <div class="user-info">
+                            <span class="name" id="profileName">Jordan Davis</span>
+                            <span class="account-type">Personal account</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Mobile Send Money Button -->
+                <button class="btn btn-primary mobile-send-money" id="mobileSendBtn"><i data-lucide="send"></i> Send
+                    money</button>
+            </header>
+
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+
+                <!-- Balance Card -->
+                <section class="card balance-card">
+                    <div class="balance-header">
+                        <span class="label">Total balance</span>
+                        <button class="btn-icon toggle-balance" id="toggleBalanceBtn"
+                            aria-label="Toggle balance visibility">
+                            <i data-lucide="eye"></i>
+                        </button>
+                        <span class="account-number">.. 4821</span>
+                    </div>
+                    <h3 class="balance-amount" id="totalBalanceAmount">$12,840.50</h3>
+
+                    <div class="balance-footer">
+                        <div class="available-balance">
+                            <span class="label">Available to spend</span>
+                            <span class="amount" id="availableBalanceAmount">$4,280.50</span>
+                        </div>
+                        <div class="monthly-change positive">
+                            +$2,840 this month
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Rainy Day Fund Card -->
+                <section class="card savings-card">
+                    <div class="savings-header">
+                        <div class="savings-info">
+                            <h3>Rainy day fund</h3>
+                            <span class="goal">Goal: $5,000</span>
+                        </div>
+                        <div class="savings-icon">
+                            <i data-lucide="piggy-bank"></i>
+                        </div>
+                    </div>
+
+                    <div class="savings-progress-container">
+                        <div class="savings-amount-row">
+                            <span class="current-amount">$3,450</span>
+                            <span class="percentage">69%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 69%;"></div>
+                        </div>
+                    </div>
+
+                    <a href="#" class="view-link" id="savingsPlanBtn">View savings plan <i
+                            data-lucide="chevron-right"></i></a>
+                </section>
+
+                <!-- Quick Actions Grid -->
+                <section class="quick-actions">
+                    <button class="action-card" id="quickSendBtn">
+                        <i data-lucide="send"></i>
+                        <span>Send money</span>
+                    </button>
+                    <button class="action-card" id="quickRequestBtn">
+                        <i data-lucide="arrow-down-left"></i>
+                        <span>Request</span>
+                    </button>
+                    <button class="action-card" id="quickScanBtn">
+                        <i data-lucide="scan-line"></i>
+                        <span>Scan & pay</span>
+                    </button>
+                    <button class="action-card" id="quickAddBtn">
+                        <i data-lucide="plus"></i>
+                        <span>Add money</span>
+                    </button>
+                </section>
+
+                <!-- Transactions -->
+                <section class="card transactions-section">
+                    <div class="transactions-header">
+                        <h3>Recent Activity</h3>
+                        <div class="search-container">
+                            <i data-lucide="search"></i>
+                            <input type="text" id="transactionSearch" placeholder="Search transactions..."
+                                aria-label="Search transactions">
+                        </div>
+                    </div>
+                    <div class="transactions-list" id="transactionsList">
+                        <!-- Filled by JS -->
+                    </div>
+                    <div class="empty-state hidden" id="emptyState">
+                        <p>No transactions match your search. Try another merchant, category, or date.</p>
+                        <button class="btn btn-secondary" id="resetSearchBtn">Reset Search</button>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Mobile Bottom Nav -->
+        <nav class="mobile-bottom-nav">
+            <a href="#" class="active"><i data-lucide="home"></i><span>Home</span></a>
+            <a href="#"><i data-lucide="send"></i><span>Pay</span></a>
+            <a href="#"><i data-lucide="credit-card"></i><span>Cards</span></a>
+            <a href="#"><i data-lucide="menu"></i><span>More</span></a>
+        </nav>
+    </div>
+
+    <!-- Send Money Modal -->
+    <div class="modal-overlay hidden" id="sendMoneyModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Send Money</h3>
+                <button class="btn-icon close-modal" id="closeModalBtn" aria-label="Close modal"><i
+                        data-lucide="x"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Step 1: Form -->
+                <form id="sendForm" class="step-container active">
+                    <div class="form-group">
+                        <label for="recipient">Recipient</label>
+                        <input type="text" id="recipient" required placeholder="Name, @username, or email">
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Amount ($)</label>
+                        <input type="number" id="amount" required min="0.01" step="0.01" placeholder="0.00">
+                        <span class="error-message" id="amountError">Enter an amount greater than $0.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="note">Note (optional)</label>
+                        <input type="text" id="note" placeholder="What's this for?">
+                    </div>
+                    <button type="submit" class="btn btn-primary full-width">Continue</button>
+                </form>
+
+                <!-- Step 2: Confirmation -->
+                <div id="confirmStep" class="step-container hidden">
+                    <p class="step-desc">Review your payment details before sending.</p>
+                    <div class="confirmation-details">
+                        <div class="detail-row">
+                            <span>To:</span>
+                            <span id="confirmRecipient" class="font-medium"></span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Amount:</span>
+                            <span id="confirmAmount" class="font-bold text-lg"></span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Note:</span>
+                            <span id="confirmNote" class="text-muted"></span>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary full-width" id="backToFormBtn">Back</button>
+                        <button type="button" class="btn btn-primary full-width" id="confirmSendBtn">Send
+                            payment</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Success -->
+                <div id="successStep" class="step-container hidden">
+                    <div class="success-icon">
+                        <i data-lucide="check-circle"></i>
+                    </div>
+                    <h4>Payment sent</h4>
+                    <p class="success-message">You sent <strong id="successAmount"></strong> to <strong
+                            id="successRecipient"></strong>.</p>
+                    <p class="ref-number">Ref: <span id="transactionRef"></span></p>
+                    <button type="button" class="btn btn-primary full-width mt-4" id="doneBtn">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Insights Modal -->
+    <div class="modal-overlay hidden" id="insightsModal" role="dialog" aria-modal="true"
+        aria-labelledby="insightsModalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="insightsModalTitle">Payment Insights</h3>
+                <button class="btn-icon close-insights" id="closeInsightsBtn" aria-label="Close modal"><i
+                        data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body" style="text-align: center; padding-top: 24px; padding-bottom: 24px;">
+                <canvas id="investmentsChart" style="max-height: 250px; margin-bottom: 24px;"></canvas>
+                <h4>Spending by Category</h4>
+                <p class="text-muted" style="margin-top: 8px; font-size: 0.875rem;">Your top spending categories this
+                    month are Food & Dining and Transport.</p>
+                <div style="margin-top: 24px; text-align: left;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span
+                            class="font-medium">Food & Dining</span><span>$89.70</span></div>
+                    <div class="progress-bar" style="margin-bottom: 16px;">
+                        <div class="progress-fill" style="width: 60%;"></div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span
+                            class="font-medium">Transport</span><span>$24.50</span></div>
+                    <div class="progress-bar" style="margin-bottom: 16px;">
+                        <div class="progress-fill" style="width: 20%; background-color: var(--warning);"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Money Modal -->
+    <div class="modal-overlay hidden" id="requestModal" role="dialog" aria-modal="true"
+        aria-labelledby="requestModalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="requestModalTitle">Request Money</h3>
+                <button class="btn-icon close-request" id="closeRequestBtn" aria-label="Close modal"><i
+                        data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="requestForm">
+                    <div class="form-group">
+                        <label for="requestFrom">Request From</label>
+                        <input type="text" id="requestFrom" required placeholder="Name, @username, or email">
+                    </div>
+                    <div class="form-group">
+                        <label for="requestAmount">Amount ($)</label>
+                        <input type="number" id="requestAmount" required min="0.01" step="0.01" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label for="requestNote">Note (optional)</label>
+                        <input type="text" id="requestNote" placeholder="What's this for?">
+                    </div>
+                    <button type="button" class="btn btn-primary full-width" id="submitRequestBtn">Send Request</button>
+                </form>
+
+                <!-- Request Success State -->
+                <div id="requestSuccess" class="hidden" style="text-align: center; padding: 24px 0;">
+                    <div class="success-icon">
+                        <i data-lucide="check-circle"></i>
+                    </div>
+                    <h4>Request sent</h4>
+                    <p class="success-message">You requested money successfully.</p>
+                    <button type="button" class="btn btn-primary full-width mt-4" id="requestDoneBtn">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cards Modal (Add Money via Card) -->
+    <div class="modal-overlay hidden" id="cardsModal" role="dialog" aria-modal="true" aria-labelledby="cardsModalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="cardsModalTitle">Add Money via Card</h3>
+                <button class="btn-icon close-cards" id="closeCardsBtn" aria-label="Close modal"><i
+                        data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="cardsForm">
+                    <div class="form-group">
+                        <label for="cardNumber">Card Number</label>
+                        <input type="text" id="cardNumber" required placeholder="0000 0000 0000 0000" maxlength="19">
+                    </div>
+                    <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                            <label for="cardExpiry">Expiry Date</label>
+                            <input type="text" id="cardExpiry" required placeholder="MM/YY" maxlength="5">
+                        </div>
+                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                            <label for="cardCvv">CVV</label>
+                            <input type="password" id="cardCvv" required placeholder="123" maxlength="4">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardAmount">Amount to Add ($)</label>
+                        <input type="number" id="cardAmount" required min="0.01" step="0.01" placeholder="0.00">
+                    </div>
+                    <button type="button" class="btn btn-primary full-width mt-4" id="submitCardsBtn">Get Money</button>
+                </form>
+
+                <!-- Cards Success State -->
+                <div id="cardsSuccess" class="hidden" style="text-align: center; padding: 24px 0;">
+                    <div class="success-icon">
+                        <i data-lucide="check-circle"></i>
+                    </div>
+                    <h4>Money Added</h4>
+                    <p class="success-message">You successfully added money using your card.</p>
+                    <button type="button" class="btn btn-primary full-width mt-4" id="cardsDoneBtn">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal-overlay hidden" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpModalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="helpModalTitle">App Instructions</h3>
+                <button class="btn-icon close-help" id="closeHelpBtn" aria-label="Close modal"><i
+                        data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body" style="text-align: left; max-height: 400px; overflow-y: auto;">
+                <h4 style="margin-bottom: 8px;">How to use Blowtech Banking</h4>
+                <ul
+                    style="padding-left: 20px; color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6; margin-bottom: 16px;">
+                    <li><strong>Check Balance:</strong> Click the 👁️ icon on the Total Balance card to hide or reveal
+                        your funds.</li>
+                    <li><strong>Send Money:</strong> Click the blue "Send money" button at the top right or in Quick
+                        Actions to start a transfer.</li>
+                    <li><strong>Request Money:</strong> Click the "Request" Quick Action to ask for funds.</li>
+                    <li><strong>Insights:</strong> Click the "Insights" link in the left sidebar to view your
+                        categorized spending and investment graphs.</li>
+                    <li><strong>Add Money via Card:</strong> Click the "Cards" link in the left sidebar to simulate
+                        adding funds from an external debit/credit card.</li>
+                    <li><strong>Search Transactions:</strong> Use the search bar in the "Recent Activity" section to
+                        filter by merchant or category.</li>
+                </ul>
+                <button type="button" class="btn btn-primary full-width" id="helpDoneBtn">Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Savings Plan Modal -->
+    <div class="modal-overlay hidden" id="savingsPlanModal" role="dialog" aria-modal="true"
+        aria-labelledby="savingsPlanModalTitle">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h3 id="savingsPlanModalTitle">Savings Plan & Analytics</h3>
+                <button class="btn-icon close-savings" id="closeSavingsBtn" aria-label="Close modal"><i
+                        data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body" style="text-align: left;">
+                <div style="display: flex; gap: 16px; margin-bottom: 24px;">
+                    <div style="flex: 1; background: var(--bg-color); padding: 16px; border-radius: 8px;">
+                        <h4 style="font-size: 0.875rem; margin-bottom: 4px;">Suggestions</h4>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px;">Set up
+                            auto-transfer of <strong>$50/week</strong> to reach your $5,000 goal in 7 months.</p>
+                        <button class="btn btn-secondary"
+                            style="font-size: 0.75rem; padding: 4px 8px; min-height: auto;">Apply Suggestion</button>
+                    </div>
+                </div>
+
+                <h4 style="margin-bottom: 12px; text-align: center;">Projected Growth</h4>
+                <canvas id="savingsChart" style="max-height: 200px; width: 100%; margin-bottom: 16px;"></canvas>
+
+                <button type="button" class="btn btn-primary full-width mt-4" id="savingsDoneBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scan & Pay Modal -->
+    <div class="modal-overlay hidden" id="scanModal" role="dialog" aria-modal="true" aria-labelledby="scanModalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="scanModalTitle">Scan & Pay</h3>
+                <button class="btn-icon close-scan" id="closeScanBtn" aria-label="Close modal"><i
+                        data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <p class="text-muted" style="margin-bottom: 16px; font-size: 0.875rem;">Align the QR code within the
+                    frame to pay instantly.</p>
+                <div class="scanner-container">
+                    <div class="scanner-frame">
+                        <div class="scanner-line"></div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 16px;">
+                    <button class="btn btn-secondary" style="flex: 1;"><i data-lucide="image"></i> Upload</button>
+                    <button class="btn btn-secondary" style="flex: 1;"><i data-lucide="zap"></i> Flashlight</button>
+                </div>
+                <button type="button" class="btn btn-primary full-width" id="mockScanSuccessBtn">Mock Scan
+                    Success</button>
+
+                <!-- Mock Success (hidden initially) -->
+                <div id="scanSuccess" class="hidden" style="margin-top: 24px;">
+                    <div class="success-icon">
+                        <i data-lucide="check-circle"></i>
+                    </div>
+                    <h4>Scanned Successfully</h4>
+                    <p class="success-message">Merchant: Starbucks ($4.50)</p>
+                    <button type="button" class="btn btn-primary full-width mt-4" id="scanDoneBtn">Pay Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Money Modal -->
+    <div class="modal-overlay hidden" id="addMoneyModal" role="dialog" aria-modal="true"
+        aria-labelledby="addMoneyModalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="addMoneyModalTitle">Add Money</h3>
+                <button class="btn-icon close-add" id="closeAddBtn" aria-label="Close modal"><i
+                        data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted" style="margin-bottom: 16px; font-size: 0.875rem;">Select a method to fund your
+                    account.</p>
+
+                <div class="payment-method-card" id="pmBankTransfer">
+                    <div class="pm-icon"><i data-lucide="building"></i></div>
+                    <div class="pm-details">
+                        <span class="pm-title">Bank Transfer</span>
+                        <span class="pm-desc">Arrives in 1-2 business days</span>
+                    </div>
+                    <i data-lucide="chevron-right" style="margin-left: auto; color: var(--text-secondary);"></i>
+                </div>
+
+                <div class="payment-method-card" id="pmCreditCard">
+                    <div class="pm-icon"><i data-lucide="credit-card"></i></div>
+                    <div class="pm-details">
+                        <span class="pm-title">Debit / Credit Card</span>
+                        <span class="pm-desc">Instant transfer (Fees may apply)</span>
+                    </div>
+                    <i data-lucide="chevron-right" style="margin-left: auto; color: var(--text-secondary);"></i>
+                </div>
+
+                <div class="payment-method-card" id="pmApplePay">
+                    <div class="pm-icon" style="background-color: #000; color: #fff;"><i data-lucide="smartphone"></i>
+                    </div>
+                    <div class="pm-details">
+                        <span class="pm-title">Apple Pay / Google Pay</span>
+                        <span class="pm-desc">Instant and secure</span>
+                    </div>
+                    <i data-lucide="chevron-right" style="margin-left: auto; color: var(--text-secondary);"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Modal -->
+    <div class="modal-overlay hidden" id="notificationModal" role="dialog" aria-modal="true"
+        aria-labelledby="notificationModalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="notificationModalTitle">Notifications</h3>
+                <button class="btn-icon close-notification" id="closeNotificationBtn" aria-label="Close modal"><i
+                        data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+                <div style="padding: 12px; border-bottom: 1px solid var(--border-color);">
+                    <h5
+                        style="margin-bottom: 4px; font-size: 0.875rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="info" style="width: 16px; height: 16px; color: var(--primary-action);"></i>
+                        System Update
+                    </h5>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary);">Your banking app has been updated to
+                        the latest version.</p>
+                </div>
+                <div style="padding: 12px; border-bottom: 1px solid var(--border-color);">
+                    <h5
+                        style="margin-bottom: 4px; font-size: 0.875rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="alert-triangle" style="width: 16px; height: 16px; color: var(--warning);"></i>
+                        Security Alert
+                    </h5>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary);">New login detected from a Windows
+                        device in San Francisco.</p>
+                </div>
+                <div style="padding: 12px; border-bottom: 1px solid var(--border-color);">
+                    <h5
+                        style="margin-bottom: 4px; font-size: 0.875rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="check-circle" style="width: 16px; height: 16px; color: var(--positive);"></i>
+                        Payment Success
+                    </h5>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary);">Your transfer of $4.50 to Starbucks was
+                        successful.</p>
+                </div>
+                <div style="padding: 12px;">
+                    <h5
+                        style="margin-bottom: 4px; font-size: 0.875rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="arrow-down-left" style="width: 16px; height: 16px; color: var(--positive);"></i>
+                        Salary Received
+                    </h5>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary);">You received $2,840.00 from your
+                        employer.</p>
+                </div>
+                <button type="button" class="btn btn-secondary full-width mt-4" id="clearNotificationsBtn">Clear
+                    All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal-overlay hidden" id="profileModal" role="dialog" aria-modal="true"
+        aria-labelledby="profileModalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="profileModalTitle">Personal Details</h3>
+                <button class="btn-icon close-profile" id="closeProfileBtn" aria-label="Close modal"><i
+                        data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div class="avatar" id="modalAvatar"
+                        style="width: 64px; height: 64px; font-size: 1.5rem; margin: 0 auto 12px auto;">JD</div>
+                    <h4 id="modalName" style="font-size: 1.25rem; font-weight: 700;">Jordan Davis</h4>
+                    <p class="text-muted" id="modalEmail" style="font-size: 0.875rem;">Personal Account •
+                        jordan@example.com</p>
+                </div>
+
+                <div style="margin-bottom: 24px;">
+                    <h5
+                        style="margin-bottom: 12px; font-size: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+                        Blowtech Banking Application</h5>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6;">
+                        Member since: Jan 2026<br>
+                        Account status: Active<br>
+                        Primary device: iPhone 13 Pro
+                    </p>
+                </div>
+
+                <div>
+                    <h5
+                        style="margin-bottom: 12px; font-size: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+                        Recent Notifications</h5>
+                    <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 8px;">
+                        <strong>System:</strong> Welcome to Blowtech Banking!
+                    </div>
+                    <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 8px;">
+                        <strong>Alert:</strong> New login detected from Windows device.
+                    </div>
+                    <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                        <strong>Payment:</strong> Your transfer of $4.50 to Starbucks was successful.
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-secondary full-width mt-4" id="signOutBtn"
+                    style="color: var(--error); border-color: #fca5a5;"><i data-lucide="log-out"></i> Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
